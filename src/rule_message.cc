@@ -30,6 +30,15 @@ constexpr bool kEscapeLogMessage = false;
 namespace modsecurity {
 
 
+/**
+ * Builds the bracketed rule and transaction fields for a textual log message.
+ * With MSC_LOG_MESSAGE_ESCAPE, request-derived values escape quotes and
+ * backslashes before insertion so the field delimiters remain unchanged.
+ * URI and data limits are applied before escaping their values.
+ *
+ * @param rm Rule match and transaction whose details are formatted.
+ * @return Textual fields, including the leading space before the first field.
+ */
 std::string RuleMessage::_details(const RuleMessage &rm) {
     std::string msg;
 
@@ -65,6 +74,14 @@ std::string RuleMessage::_details(const RuleMessage &rm) {
 }
 
 
+/**
+ * Builds the server-address, URI and transaction-ID fields for an error log.
+ * MSC_LOG_MESSAGE_ESCAPE enables quote and backslash escaping within values;
+ * the URI is limited before escaping to avoid cutting an escape sequence.
+ *
+ * @param rm Rule match providing the transaction details.
+ * @return Bracketed error-log tail with no leading space.
+ */
 std::string RuleMessage::_errorLogTail(const RuleMessage &rm) {
     std::string msg;
 

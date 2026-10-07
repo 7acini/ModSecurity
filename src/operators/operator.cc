@@ -111,6 +111,17 @@ bool Operator::evaluateInternal(Transaction *transaction,
 }
 
 
+/**
+ * Returns the operator's custom match message, or builds the default message.
+ * MSC_LOG_MESSAGE_ESCAPE enables quote and backslash escaping in variable
+ * names, values and macro-expanded parameters. In that mode, values are
+ * limited before escaping; otherwise the legacy formatting order is retained.
+ *
+ * @param t Transaction used to evaluate macro-expanded operator parameters.
+ * @param key Matched variable name, including its collection.
+ * @param value Matched variable value before transformations.
+ * @return Custom or generated textual match description.
+ */
 std::string Operator::resolveMatchMessage(Transaction *t,
     std::string key, std::string value) {
     std::string ret = m_match_message;
